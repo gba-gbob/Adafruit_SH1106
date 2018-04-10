@@ -27,12 +27,17 @@ However, SH1106 driver don't provide several functions such as scroll commands.
 *********************************************************************/
 
 #include <avr/pgmspace.h>
-#ifndef __SAM3X8E__
- #include <util/delay.h>
-#endif
+//#ifndef __SAM3X8E__ || __STM32F1__
+ //#include <util/delay.h>
+//#endif
 #include <stdlib.h>
 
+
 #include <Wire.h>
+//TwoWire WIRE(1,I2C_FAST_MODE); // I2c1
+TwoWire WIRE2 (2,I2C_FAST_MODE);
+#define Wire WIRE2
+
 
 #include "Adafruit_GFX.h"
 #include "Adafruit_SH1106.h"
@@ -191,11 +196,11 @@ void Adafruit_SH1106::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
       }
     if (hwSPI){
       SPI.begin ();
-#ifdef __SAM3X8E__
+//#ifdef __SAM3X8E__
       SPI.setClockDivider (9); // 9.3 MHz
-#else
-      SPI.setClockDivider (SPI_CLOCK_DIV2); // 8 MHz
-#endif
+//#else
+ //     SPI.setClockDivider (SPI_CLOCK_DIV2); // 8 MHz
+//#endif
       }
     }
   else
@@ -547,10 +552,10 @@ void Adafruit_SH1106::display(void) {
 	else{
 		
 	 // save I2C bitrate
-	#ifndef __SAM3X8E__
-    		uint8_t twbrbackup = TWBR;
-    		TWBR = 12; // upgrade to 400KHz!
-	#endif
+//	#ifndef __SAM3X8E__
+//    		uint8_t twbrbackup = TWBR;
+//    		TWBR = 12; // upgrade to 400KHz!
+//	#endif
 	
 	for ( i = 0; i < height; i++) {
 		
@@ -569,9 +574,9 @@ void Adafruit_SH1106::display(void) {
         	}
 	}
 	
-	#ifndef __SAM3X8E__
-    		TWBR = twbrbackup;
-	#endif
+//	#ifndef __SAM3X8E__
+//    		TWBR = twbrbackup;
+//	#endif
 	}
 }
 

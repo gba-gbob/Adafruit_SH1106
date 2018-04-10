@@ -33,7 +33,7 @@ However, SH1106 driver don't provide several functions such as scroll commands.
  #include "WProgram.h"
   #define WIRE_WRITE Wire.send
 #endif
-
+/*
 #ifdef __SAM3X8E__
  typedef volatile RwReg PortReg;
  typedef uint32_t PortMask;
@@ -41,7 +41,9 @@ However, SH1106 driver don't provide several functions such as scroll commands.
   typedef volatile uint8_t PortReg;
   typedef uint8_t PortMask;
 #endif
-
+*/
+//typedef volatile RwReg PortReg;
+// typedef uint32_t PortMask;
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 
@@ -171,8 +173,8 @@ class Adafruit_SH1106 : public Adafruit_GFX {
   void fastSPIwrite(uint8_t c);
 
   boolean hwSPI;
-  PortReg *mosiport, *clkport, *csport, *dcport;
-  PortMask mosipinmask, clkpinmask, cspinmask, dcpinmask;
+volatile uint32 *mosiport, *clkport, *csport, *dcport;
+   uint32_t  mosipinmask, clkpinmask, cspinmask, dcpinmask;
 
   inline void drawFastVLineInternal(int16_t x, int16_t y, int16_t h, uint16_t color) __attribute__((always_inline));
   inline void drawFastHLineInternal(int16_t x, int16_t y, int16_t w, uint16_t color) __attribute__((always_inline));
